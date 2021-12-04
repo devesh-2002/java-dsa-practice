@@ -1,0 +1,12 @@
+package com.ObjectOrientedProgramming.interfaces.extendDemo;
+
+public class Main implements B,A {
+@Override
+public void greet(){
+
+}
+    public static void main(String[] args) {
+        Main main = new Main();
+        A.greet(); //Call via interface name
+    }
+}
