@@ -47,6 +47,8 @@ public class GenericTrees {
         System.out.println("Maximum of all nodes is "+max(root));
         System.out.println("Height is "+height(root));
       //  traversals(root);
+        levelOrder(root);
+        levelOrderLineWise(root);
 
     } //Displays node -> children
     public static void display(Node node) {
@@ -114,18 +116,43 @@ public class GenericTrees {
         System.out.println("Node Post "+node.data);
     }
     public static void levelOrder(Node node){
-        //LevelOrder means traversing level by level from left to right
+        //LevelOrder means traversing level by level from left to right and top to bottom
         Queue<Node> q = new ArrayDeque<>();
         q.add(node);
         while(q.size()>0){
             node = q.remove();
-            System.out.println(node.data+" ");
+            System.out.print(node.data+" ");
             for(Node child:node.children){
-                q.add(child);
+                q.add(child);//traversing through child
             }
         }
-        System.out.println(".");
+        System.out.print(".");
+        }
+        public static void levelOrderLineWise(Node node){
+        //Prints the children of root per line
+        Queue<Node> main_queue = new ArrayDeque<>();
+        main_queue.add(node);//Adding the elements first into main queue
+        Queue<Node> child_queue = new ArrayDeque<>();
+            while(main_queue.size()>0){
+                node = main_queue.remove(); //Remove the elements of main queue
+                System.out.print(node.data+" ");
+                for(Node child:node.children){
+                    child_queue.add(child);//queue consisting of child elements of root
+                }
+                //Every child element of main queue gets added in child queue
+                //The process repeats itself
+                if(main_queue.size()==0){
+                    main_queue=child_queue;
+                    child_queue = new ArrayDeque<>();
+                    System.out.println();//print child elements line by line
+                }
+
+            }
         }
 
+
     }
+
+
+
 
