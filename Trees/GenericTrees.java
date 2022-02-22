@@ -47,8 +47,9 @@ public class GenericTrees {
         System.out.println("Maximum of all nodes is "+max(root));
         System.out.println("Height is "+height(root));
       //  traversals(root);
-        levelOrder(root);
-        levelOrderLineWise(root);
+    //   levelOrder(root);
+    //   levelOrderLineWise(root);
+        linearize(root);
 
     } //Displays node -> children
     public static void display(Node node) {
@@ -149,10 +150,28 @@ public class GenericTrees {
 
             }
         }
+        public static void linearize(Node node){
+        // In this the tail of previous child is attached to the next node.
+        // (10-20-30-50-60)-(30-70-80-110-120-90)-(40-100)
+        for(Node child:node.children){
+            linearize(child);
+        }
+        while(node.children.size()>1){
+            Node last_child = node.children.remove(node.children.size()-1);
+            Node second_last = node.children.get(node.children.size()-1);
+            Node second_last_tail = getTail(second_last);
+            second_last_tail.children.add(last_child);
+        }
+        }
 
-
+    private static Node getTail(Node node) {
+        while(node.children.size()==1){
+            node = node.children.get(0);
+        }
+        return node;
     }
 
 
+}
 
 
