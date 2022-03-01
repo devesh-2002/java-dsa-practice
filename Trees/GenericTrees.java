@@ -49,9 +49,16 @@ public class GenericTrees {
       //  traversals(root);
     //   levelOrder(root);
     //   levelOrderLineWise(root);
-        linearize(root);
+        //Tree after getting Linearized
+      //  linearize(root);
+      //  display(root);
+        //LineWiseZigZagDisplay
+       // levelOrderLineWiseZigZag(root);
+       // System.out.println(find(root,30));
+        System.out.println(nodeToRootPath(root,110));
+    }
 
-    } //Displays node -> children
+    //Displays node -> children
     public static void display(Node node) {
         //prints child of the root
         String str = node.data + " -> ";
@@ -150,6 +157,7 @@ public class GenericTrees {
 
             }
         }
+        //Linearizing Tree
         public static void linearize(Node node){
         // In this the tail of previous child is attached to the next node.
         // (10-20-30-50-60)-(30-70-80-110-120-90)-(40-100)
@@ -172,6 +180,78 @@ public class GenericTrees {
     }
 
 
+    //Level Order Line Wise (Zig Zag)
+    //Root -> children on one line (right to left) ->children on next line(right to left)->and so on
+    //Basically print elements per line in a zig zag manner
+    public static void levelOrderLineWiseZigZag(Node node){
+        //Main Stack
+        Stack<Node> main_stack = new Stack<>();
+        main_stack.add(node);
+        //Stack containing children
+        Stack<Node> child_stack = new Stack<>();
+        int level = 0;
+
+        while(main_stack.size() > 0){
+            node = main_stack.pop();//Removing the elements of main stack
+            System.out.print(node.data + " ");
+
+            if(level % 2 == 0){//Even level ->2,4..
+                //Left to right elements
+                for(int i = 0; i < node.children.size(); i++){
+                    Node child = node.children.get(i);
+                    child_stack.push(child);
+                }
+            } else {
+                //For odd level
+                //Right to left
+                for(int i = node.children.size() - 1; i >= 0; i--){
+                    Node child = node.children.get(i);
+                    child_stack.push(child);
+                }
+            }
+            //After main stack gets emptied
+            if(main_stack.size() == 0){
+                main_stack = child_stack;
+                child_stack = new Stack<>();//Transfer contents of child stack to main stack
+                level++;//increase the level
+                System.out.println();
+            }
+    }
+}
+    //Find an element in Generic Tree
+    public static boolean find(Node node, int data){
+        if(node.data == data){
+            //Matches data with node/root of tree
+            //If root and the number are same, true is returned
+            return true;
+        }
+        for (Node child: node.children) {
+            boolean first_child = find(child,data);
+            if(first_child){
+                return true;//Finds the element in the children nodes
+            }
+        }
+        return false;//Returns false if no element matches
+    }
+
+    public static ArrayList<Integer> nodeToRootPath(Node node, int data){
+        //Finding element, printing root, children and element in array
+        if(node.data == data){
+            //If element is one of the data
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(node.data); //Add data
+            return list;
+        }
+        for(Node child:node.children){ //Searching in children of the data
+            ArrayList<Integer> path_till_child = nodeToRootPath(child,data); //Recursion
+            if(path_till_child.size()>0){
+                path_till_child.add(node.data);
+                return path_till_child;
+                //Keeps on adding children of data and root itself till element is found
+            }
+        }
+        return new ArrayList<>();
+    }
 }
 
 
