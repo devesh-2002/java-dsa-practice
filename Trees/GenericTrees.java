@@ -56,6 +56,7 @@ public class GenericTrees {
        // levelOrderLineWiseZigZag(root);
        // System.out.println(find(root,30));
         System.out.println(nodeToRootPath(root,110));
+        System.out.println(lowest_common_ancestor(root,110,70));
     }
 
     //Displays node -> children
@@ -252,6 +253,26 @@ public class GenericTrees {
         }
         return new ArrayList<>();
     }
+    public static int lowest_common_ancestor(Node node, int d1, int d2){
+        //If suppose d1,d2 are 110 and 70, then lowest common ancestor is 30 because
+        //110->80->30->10
+        //70->30->10
+        //Both have 30 and 10 in common and 30 is the closest common
+        ArrayList<Integer> p1 = nodeToRootPath(node, d1); //d1 to Root
+        ArrayList<Integer> p2 = nodeToRootPath(node, d2);//d2 to Root
+        int i = p1.size() - 1;
+        int j = p2.size()- 1;
+        //Accesing common elements in d1 and d2 in d1 and d2
+        while(i>=0&&j>=0&&p1.get(i)==p2.get(j)){
+            i--;
+            j--;
+        }
+        //Incrementing i and j to get first equal element
+        i++;
+        j++;
+        return p1.get(i);
+    }
 }
+
 
 
