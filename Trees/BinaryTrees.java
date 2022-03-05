@@ -1,6 +1,15 @@
 package com.Trees;
 
 import java.util.Stack;
+/*
+             50
+            /   \
+         25       75
+        /   \    /   \
+       12   37  62    87
+            /   \
+           30   70
+ */
 
 public class BinaryTrees {
     public static class Node{
@@ -21,6 +30,24 @@ public class BinaryTrees {
             this.node = node;
             this.state = state;
         }
+    }
+    public static void display(Node node){
+        if(node ==null){
+            //If there are no children of that node then return to the previous node
+            return;
+        }
+        String str = "";
+        str+=node.left==null?"." : node.left.data + " ";//Ternary operators
+        //If left is null add . , else add data of left
+        str+="<-"+node.data+"->";
+        //If right is null add ., else add data of right
+        str+= node.right == null?".":node.right.data+" ";
+        System.out.println(str);
+        //Recursion
+        //First travelling to left of the node then travelling to right of the node
+        display(node.left);
+        display(node.right);
+
     }
     public static void main(String[] args) {
         Integer[] arr = {50,25,12,null,null,37,30,null,null,null
@@ -60,5 +87,7 @@ public class BinaryTrees {
                 st.pop();
             }
         }
+        display(root);
     }
+
 }
